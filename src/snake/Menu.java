@@ -35,24 +35,20 @@ public class Menu {
         int choice = 0;
         getButton(choice).setActive(true);
         print();
-        BufferedReader in =
-            new BufferedReader(new InputStreamReader(System.in));
-        char[] keys = new char[3];
-        in.read(keys, 0, 3);
-        while ((int)keys[0] != 13) {
-            if ((int)keys[0] == 27 && (int)keys[1] == 91) {
+        KeyReader keyRead = new KeyReader(System.in);
+        int[] keys = keyRead.getKeys(3);
+        while (keys[0] != 13) {
+            if (keyRead.isArrow(keys)) {
                 getButton(choice).setActive(false);
-                switch ((int)keys[2]) {
-                    // arrow up: 27-91-65
-                    case 65:
+                switch (keyRead.arrowDir(keys)) {
+                    case 'U':
                         if (choice != 0) {
                             choice -= 1;
                         } else {
                             choice = getSize()-1;
                         }
                         break;
-                    // arrow down: 27-91-66
-                    case 66:
+                    case 'D':
                         if (choice != getSize()-1) {
                             choice += 1;
                         } else {
@@ -64,7 +60,7 @@ public class Menu {
             getButton(choice).setActive(true);
             Main.clearScr();
             print();
-            in.read(keys, 0, 3);
+            keys = keyRead.getKeys(3);
         }
         getButton(choice).action();
         //System.out.println("Run: " + getButton(choice) + "!");
