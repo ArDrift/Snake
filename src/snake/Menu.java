@@ -19,6 +19,7 @@ public class Menu {
                 System.out.println("\r" + b);
             }
         }
+        System.out.print("\r");
     }
 
     public Button getButton(int i) {
@@ -66,6 +67,6 @@ public class Menu {
             in.read(keys, 0, 3);
         }
         getButton(choice).action();
-        System.out.println("Run: " + getButton(choice) + "!");
+        //System.out.println("Run: " + getButton(choice) + "!");
     }
 }

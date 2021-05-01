@@ -7,6 +7,7 @@ public class NewGameBtn extends Button {
 
     @Override
     public void action() {
-        //startGame(getSettings());
+        Game game = new Game(new Field(10, 10), new Snake(2, 2, 'A'), 0);
+        game.start();
     }
 }

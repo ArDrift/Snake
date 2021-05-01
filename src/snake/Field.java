@@ -28,13 +28,26 @@ public class Field {
         getMatrix()[x][y].setType(c);
     }
 
+    public String displayCell(Cell c) {
+        switch (c.getType()) {
+            case 'e': return "  ";
+            case 'o': return "🧱";
+            case 's': return "📗";
+            case 'a': return "🍎";
+            case 'A': return "▲";
+            case 'B': return "▼";
+            case 'C': return "▶";
+            case 'D': return "◀";
+            default: return "";
+        }
+    }
+
     public void print() {
         for (int i = 0; i < getMatrix()[0].length; i++) {
             for (int j = 0; j < getMatrix().length; j++) {
-                System.out.print(j + "." + i + ": "
-                                  + getMatrix()[j][i].getType() + "  ");
+                System.out.print(displayCell(getMatrix()[j][i]));
             }
-            System.out.println("");
+            System.out.println("\r");
         }
     }
 }
