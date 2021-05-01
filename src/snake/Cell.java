@@ -3,7 +3,7 @@ package snake;
 public class Cell {
     private char type;
     // 'e' = empty; 'o' = obstacle; 's' = snake; 'a' = apple
-    // A/B/C/D = snake-head: ('A' = up; 'B' = down; 'C' = right; 'D' = left)
+    // U/D/L/R = snake-head: ('U' = up; 'D' = down; 'R' = right; 'L' = left)
     public Cell (char c) {
         type = c;
     }

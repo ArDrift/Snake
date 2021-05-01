@@ -32,12 +32,12 @@ public class Field {
         switch (c.getType()) {
             case 'e': return "  ";
             case 'o': return "🧱";
-            case 's': return "📗";
+            case 's': return "🐍";
             case 'a': return "🍎";
-            case 'A': return "▲";
-            case 'B': return "▼";
-            case 'C': return "▶";
-            case 'D': return "◀";
+            case 'U': return "🔼";
+            case 'D': return "🔽";
+            case 'R': return "▶";
+            case 'L': return "◀";
             default: return "";
         }
     }
