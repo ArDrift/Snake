@@ -36,8 +36,8 @@ public class Field {
             case 'a': return "🍎";
             case 'U': return "🔼";
             case 'D': return "🔽";
-            case 'R': return "▶";
-            case 'L': return "◀";
+            case 'R': return "🔜";
+            case 'L': return "🔚";
             default: return "";
         }
     }
@@ -49,5 +49,9 @@ public class Field {
             }
             System.out.println("\r");
         }
+    }
+
+    public int[] getSize() {
+        return new int[] {width, height};
     }
 }
