@@ -20,9 +20,13 @@ public class Main {
 
     }
 
+    public static boolean isWindows() {
+        return System.getProperty("os.name").contains("Windows");
+    }
+
     public static void clearScr() throws IOException, InterruptedException {
         // https://stackoverflow.com/questions/2979383/java-clear-the-console
-        if (System.getProperty("os.name").contains("Windows")) {
+        if (isWindows()) {
             new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
         } else {
             System.out.print("\033[H\033[2J");
@@ -32,13 +36,15 @@ public class Main {
 
     public static void setRaw(boolean raw) throws IOException, InterruptedException {
         // https://stackoverflow.com/questions/1066318/how-to-read-a-single-char-from-the-console-in-java-as-the-user-types-it/1066339#6876253
-        String[] rawCmd = {"/bin/sh", "-c", "stty raw < /dev/tty"};
-        String[] echoCmd = {"/bin/sh", "-c", "stty -echo < /dev/tty"};
-        if (!raw) {
-            rawCmd[2] = "stty cooked < /dev/tty";
-            echoCmd[2] = "stty echo < /dev/tty";
+        if (!isWindows()) {
+            String[] rawCmd = {"/bin/sh", "-c", "stty raw < /dev/tty"};
+            String[] echoCmd = {"/bin/sh", "-c", "stty -echo < /dev/tty"};
+            if (!raw) {
+                rawCmd[2] = "stty cooked < /dev/tty";
+                echoCmd[2] = "stty echo < /dev/tty";
+            }
+            Runtime.getRuntime().exec(rawCmd).waitFor();
+            Runtime.getRuntime().exec(echoCmd).waitFor();
         }
-        Runtime.getRuntime().exec(rawCmd).waitFor();
-        Runtime.getRuntime().exec(echoCmd).waitFor();
     }
 }
