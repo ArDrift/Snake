@@ -11,19 +11,27 @@ public class Snake {
         pos[0] = px;
         pos[1] = py;
         dir = d;
-        length = 2;
+        length = 10;
         switch (dir) {
-            case 'U': body.add(new int[] {pos[0], pos[1] + 1});
-                      body.add(new int[] {pos[0], pos[1] + 2});
+            case 'U':
+                for (int i = 1; i <= length; i++) {
+                    body.add(new int[] {pos[0], pos[1] + i});
+                }
                 break;
-            case 'D': body.add(new int[] {pos[0], pos[1] - 1});
-                      body.add(new int[] {pos[0], pos[1] - 2});
+            case 'D':
+                for (int i = 1; i <= length; i++) {
+                    body.add(new int[] {pos[0], pos[1] - i});
+                }
                 break;
-            case 'R': body.add(new int[] {pos[0] - 1, pos[1]});
-                      body.add(new int[] {pos[0] - 2, pos[1]});
+            case 'R':
+                for (int i = 1; i <= length; i++) {
+                    body.add(new int[] {pos[0] - i, pos[1]});
+                }
                 break;
-            case 'L': body.add(new int[] {pos[0] + 1, pos[1]});
-                      body.add(new int[] {pos[0] + 2, pos[1]});
+            case 'L':
+                for (int i = 1; i <= length; i++) {
+                    body.add(new int[] {pos[0] + i, pos[1]});
+                }
                 break;
             default: break;
         }
@@ -33,11 +41,42 @@ public class Snake {
         return pos;
     }
 
+    protected void setPos(int[] p) {
+        pos[0] = p[0];
+        pos[1] = p[1];
+    }
+
     public char getDir() {
         return dir;
     }
 
+    protected void setDir(char d) {
+        dir = d;
+    }
+
     public ArrayList<int[]> getBody() {
         return body;
+    }
+
+    public int[] newPos(char dir) {
+        switch (dir) {
+            case 'U': return new int[] {getPos()[0], getPos()[1]-1};
+            case 'D': return new int[] {getPos()[0], getPos()[1]+1};
+            case 'R': return new int[] {getPos()[0]+1, getPos()[1]};
+            case 'L': return new int[] {getPos()[0]-1, getPos()[1]};
+            default: return new int[] {getPos()[0], getPos()[1]};
+        }
+    }
+
+    public void move(char dir) {
+        int[] oldPos = {getPos()[0], getPos()[1]};
+        setPos(newPos(dir));
+        for (int i = 0; i < getBody().size(); i++) {
+            int [] temp = {getBody().get(i)[0], getBody().get(i)[1]};
+            getBody().get(i)[0] = oldPos[0];
+            getBody().get(i)[1] = oldPos[1];
+            oldPos[0] = temp[0];
+            oldPos[1] = temp[1];
+        }
     }
 }

@@ -12,8 +12,8 @@ The program is WIP as of yet.
   - [ ] Close
 - [ ] In-game functionality
   - [x] Draw field and elements
-  - [ ] Draw snake (moving)
-  - [ ] Control snake
+  - [x] Draw snake (moving)
+  - [x] Control snake
     - [ ] Handle collision
   - [ ] Apple-eating mechanism
     - [ ] Apple regeneration
