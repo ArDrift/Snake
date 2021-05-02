@@ -22,7 +22,6 @@ public class Game {
         for (int[] b : snake.getBody()) {
             field.setCell(b[0], b[1], 's');
         }
-        field.setCell(7, 9, 'o');
         Main.clearScr();
         field.print();
         KeyReader keyRead = new KeyReader(System.in);
