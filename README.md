@@ -9,11 +9,14 @@ The program is WIP as of yet.
   - [ ] Load saved game
   - [ ] Set field size
   - [ ] Custom field maker
+  - [ ] High scores
+    - [ ] Comparable (order by name / points)
   - [ ] Close
 - [ ] In-game functionality
   - [x] Draw field and elements
   - [x] Draw snake (moving)
   - [x] Control snake
+    - [ ] Scheduled move (input only sets direction)
     - [x] Handle collision
   - [x] Apple-eating mechanism
     - [x] Apple regeneration
