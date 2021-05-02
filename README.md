@@ -14,7 +14,7 @@ The program is WIP as of yet.
   - [x] Draw field and elements
   - [x] Draw snake (moving)
   - [x] Control snake
-    - [ ] Handle collision
+    - [x] Handle collision
   - [ ] Apple-eating mechanism
     - [ ] Apple regeneration
     - [ ] Snake growing

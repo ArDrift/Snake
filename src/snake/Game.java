@@ -27,7 +27,7 @@ public class Game {
         while (isInside(snake.getPos())) {
             if (keyRead.isArrow(keys)) {
                 char dir = keyRead.arrowDir(keys);
-                if (isInside(snake.newPos(dir))) {
+                if (isValid(snake.newPos(dir))) {
                     if (dir != snake.getDir()) {
                         snake.setDir(dir);
                     }
@@ -50,8 +50,8 @@ public class Game {
     public void updateField() {
         field.setCell(snake.getPos()[0], snake.getPos()[1], snake.getDir());
         for (int[] bPos: snake.getBody()) {
-            if (field.getMatrix()[bPos[0]][bPos[1]].getType() != 'o') {
-                field.getMatrix()[bPos[0]][bPos[1]].setType('s');
+            if (field.getCell(bPos[0], bPos[1]).getType() != 'o') {
+                field.getCell(bPos[0], bPos[1]).setType('s');
             }
         }
     }
@@ -60,5 +60,11 @@ public class Game {
         int[] size = field.getSize();
         return 0 <= coord[0] && coord[0] < size[0]
                && 0 <= coord[1] && coord[1] < size[1];
+    }
+
+    public boolean isValid(int[] coord) {
+        return isInside(coord)
+               && (field.getCell(coord[0], coord[1]).getType() == 'e'
+               || field.getCell(coord[0], coord[1]).getType() == 'a');
     }
 }

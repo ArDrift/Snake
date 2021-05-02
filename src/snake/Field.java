@@ -28,6 +28,10 @@ public class Field {
         getMatrix()[x][y].setType(c);
     }
 
+    public Cell getCell(int x, int y) {
+        return getMatrix()[x][y];
+    }
+
     public String displayCell(Cell c) {
         switch (c.getType()) {
             case 'e': return "  ";
