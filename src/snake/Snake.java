@@ -79,4 +79,12 @@ public class Snake {
             oldPos[1] = temp[1];
         }
     }
+
+    public int[] getTailPos() {
+        return getBody().get(getBody().size()-1);
+    }
+
+    public void grow() {
+        body.add(new int[] {getTailPos()[0], getTailPos()[1]});
+    }
 }

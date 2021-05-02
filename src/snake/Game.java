@@ -12,8 +12,8 @@ public class Game {
         field = f;
         snake = s;
         pts = p;
-        apple = new Apple(randomSpace());
         field.setCell(snake.getPos()[0], snake.getPos()[1], snake.getDir());
+        apple = new Apple(randomSpace());
         field.setCell(apple.getPos()[0], apple.getPos()[1], 'a');
 
     }
@@ -29,30 +29,41 @@ public class Game {
         int[] keys = keyRead.getKeys(3);
         while (isInside(snake.getPos())) {
             if (keyRead.isArrow(keys)) {
-                char dir = keyRead.arrowDir(keys);
-                if (isValid(snake.newPos(dir))) {
-                    if (dir != snake.getDir()) {
-                        snake.setDir(dir);
+                char keyDir = keyRead.arrowDir(keys);
+                if (isValid(snake.newPos(keyDir))
+                    && snake.getDir() != opposite(keyDir)) {
+                    if (keyDir != snake.getDir()) {
+                        snake.setDir(keyDir);
                     }
                     Main.clearScr();
-                    int[] tailPos = snake.getBody().get(
-                                                    snake.getBody().size()-1);
+                    int[] tailPos = snake.getTailPos();
                     field.setCell(tailPos[0], tailPos[1], 'e');
-                    snake.move(dir);
+                    snake.move(keyDir);
                     if (field.getCell(snake.getPos()[0],
                                     snake.getPos()[1]).getType() == 'a') {
+                        field.setCell(tailPos[0], tailPos[1], 's');
+                        snake.grow();
                         apple.setPos(randomSpace());
                         field.setCell(
                                     apple.getPos()[0], apple.getPos()[1], 'a');
                         }
                     updateField();
                     field.print();
+                } else if (snake.getDir() != opposite(keyDir)) {
+                    break;
                 }
             }
             keys = keyRead.getKeys(3);
-            if (keys[0] == 13) {
-                break;
-            }
+        }
+    }
+
+    public char opposite(char dir) {
+        switch (dir) {
+            case 'U': return 'D';
+            case 'D': return 'U';
+            case 'R': return 'L';
+            case 'L': return 'R';
+            default: return 'X';
         }
     }
 

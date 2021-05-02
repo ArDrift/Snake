@@ -15,9 +15,9 @@ The program is WIP as of yet.
   - [x] Draw snake (moving)
   - [x] Control snake
     - [x] Handle collision
-  - [ ] Apple-eating mechanism
-    - [ ] Apple regeneration
-    - [ ] Snake growing
+  - [x] Apple-eating mechanism
+    - [x] Apple regeneration
+    - [x] Snake growing
   - [ ] Point system
   - [ ] In-game pause
     - [ ] Save game
