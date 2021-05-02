@@ -1,16 +1,20 @@
 package snake;
 import java.io.IOException;
+import java.util.Random;
 
 public class Game {
     private Field field;
     private Snake snake;
+    private Apple apple;
     private int pts;
 
     public Game(Field f, Snake s, int p) {
         field = f;
         snake = s;
         pts = p;
+        apple = new Apple(randomSpace());
         field.setCell(snake.getPos()[0], snake.getPos()[1], snake.getDir());
+        field.setCell(apple.getPos()[0], apple.getPos()[1], 'a');
 
     }
 
@@ -19,7 +23,6 @@ public class Game {
             field.setCell(b[0], b[1], 's');
         }
         field.setCell(7, 9, 'o');
-        field.setCell(1, 6, 'a');
         Main.clearScr();
         field.print();
         KeyReader keyRead = new KeyReader(System.in);
@@ -36,6 +39,12 @@ public class Game {
                                                     snake.getBody().size()-1);
                     field.setCell(tailPos[0], tailPos[1], 'e');
                     snake.move(dir);
+                    if (field.getCell(snake.getPos()[0],
+                                    snake.getPos()[1]).getType() == 'a') {
+                        apple.setPos(randomSpace());
+                        field.setCell(
+                                    apple.getPos()[0], apple.getPos()[1], 'a');
+                        }
                     updateField();
                     field.print();
                 }
@@ -66,5 +75,16 @@ public class Game {
         return isInside(coord)
                && (field.getCell(coord[0], coord[1]).getType() == 'e'
                || field.getCell(coord[0], coord[1]).getType() == 'a');
+    }
+
+    public int[] randomSpace() {
+        Random r = new Random();
+        int x = r.nextInt(field.getSize()[0]);
+        int y = r.nextInt(field.getSize()[1]);
+        while (field.getCell(x, y).getType() != 'e') {
+            x = r.nextInt(field.getSize()[0]);
+            y = r.nextInt(field.getSize()[1]);
+        }
+        return new int [] {x, y};
     }
 }
