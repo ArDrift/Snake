@@ -10,11 +10,17 @@ public class Field {
         width = w;
         height = h;
         setMatrix(w, h);
-        for (int i = 0; i < w; i++) {
-            for (int j = 0; j < h; j++) {
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
                 getMatrix()[i][j] = new Cell('e');
             }
         }
+    }
+
+    public Field(Cell[][] m) {
+        width = m[0].length;
+        height = m.length;
+        matrix = m;
     }
 
     public Cell[][] getMatrix() {
@@ -22,13 +28,13 @@ public class Field {
     }
 
     public void setMatrix(int w, int h) {
-        matrix = new Cell[w][h];
+        matrix = new Cell[h][w];
     }
 
     public void printMatrix(PrintWriter wt) {
         for (int c = 0; c < matrix.length; c++) {
             for (int r = 0; r < matrix[c].length; r++) {
-                wt.print(matrix[r][c].toString());
+                wt.print(matrix[c][r].toString());
                 if (r != matrix.length-1) {
                     wt.print(" ");
                 }
@@ -38,11 +44,11 @@ public class Field {
     }
 
     public void setCell(int x, int y, char c) {
-        getMatrix()[x][y].setType(c);
+        getMatrix()[y][x].setType(c);
     }
 
     public Cell getCell(int x, int y) {
-        return getMatrix()[x][y];
+        return getMatrix()[y][x];
     }
 
     public String displayCell(Cell c) {
@@ -62,10 +68,10 @@ public class Field {
     public void print(int data) {
         String w = new String(new char[getSize()[0]*2]).replace("\0", "═");
         System.out.println("╔" + w + "╗" + "\r");
-        for (int i = 0; i < getMatrix()[0].length; i++) {
+        for (int i = 0; i < getMatrix().length; i++) {
             System.out.print("║");
-            for (int j = 0; j < getMatrix().length; j++) {
-                System.out.print(displayCell(getMatrix()[j][i]));
+            for (int j = 0; j < getMatrix()[0].length; j++) {
+                System.out.print(displayCell(getMatrix()[i][j]));
             }
             System.out.println("║" + "  ");
             int bw = String.valueOf(data).length();
