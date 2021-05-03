@@ -37,11 +37,11 @@ public class Field {
             case 'e': return "  ";
             case 'o': return "▒▒";
             case 's': return "██";
-            case 'a': return "◖◗";
-            case 'U': return "◢◣";
-            case 'D': return "◥◤";
-            case 'R': return "█▶";
-            case 'L': return "◀█";
+            case 'a': return "()";
+            case 'U': return "/\\";
+            case 'D': return "\\/";
+            case 'R': return "█>";
+            case 'L': return "<█";
             default: return "";
         }
     }
