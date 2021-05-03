@@ -25,34 +25,41 @@ public class Game {
         Main.clearScr();
         field.print();
         KeyReader keyRead = new KeyReader(System.in);
-        int[] keys = keyRead.getKeys(3);
-        while (isInside(snake.getPos())) {
-            if (keyRead.isArrow(keys)) {
-                char keyDir = keyRead.arrowDir(keys);
-                if (isValid(snake.newPos(keyDir))
-                    && snake.getDir() != opposite(keyDir)) {
-                    if (keyDir != snake.getDir()) {
-                        snake.setDir(keyDir);
-                    }
-                    Main.clearScr();
-                    int[] tailPos = snake.getTailPos();
-                    field.setCell(tailPos[0], tailPos[1], 'e');
-                    snake.move(keyDir);
-                    if (field.getCell(snake.getPos()[0],
-                                    snake.getPos()[1]).getType() == 'a') {
-                        field.setCell(tailPos[0], tailPos[1], 's');
-                        snake.grow();
-                        apple.setPos(randomSpace());
-                        field.setCell(
-                                    apple.getPos()[0], apple.getPos()[1], 'a');
-                        }
-                    updateField();
-                    field.print();
-                } else if (snake.getDir() != opposite(keyDir)) {
-                    break;
-                }
-            }
+        int[] keys = new int[] {0, 0, 0};
+        if (keyRead.ready()) {
             keys = keyRead.getKeys(3);
+        }
+        while (isInside(snake.getPos())) {
+            char keyDir = snake.getDir();
+            if (!(keys[0] == 0 && keys[1] == 0 && keys[2] == 0)) {
+                keyDir = keyRead.arrowDir(keys);
+            }
+            if (isValid(snake.newPos(snake.getDir()))
+                && snake.getDir() != opposite(keyDir)) {
+                if (keyDir != snake.getDir()) {
+                    snake.setDir(keyDir);
+                }
+                Main.clearScr();
+                int[] tailPos = snake.getTailPos();
+                field.setCell(tailPos[0], tailPos[1], 'e');
+                snake.move(snake.getDir());
+                if (field.getCell(snake.getPos()[0],
+                                snake.getPos()[1]).getType() == 'a') {
+                    field.setCell(tailPos[0], tailPos[1], 's');
+                    snake.grow();
+                    apple.setPos(randomSpace());
+                    field.setCell(
+                                apple.getPos()[0], apple.getPos()[1], 'a');
+                    }
+                updateField();
+                field.print();
+            } else if (snake.getDir() != opposite(keyDir)) {
+                break;
+            }
+            Thread.sleep(100);
+            if (keyRead.ready()) {
+                keys = keyRead.getKeys(3);
+            }
         }
     }
 

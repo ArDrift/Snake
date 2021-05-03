@@ -6,13 +6,14 @@ import java.io.InputStream;
 
 public class KeyReader {
     private InputStream inputSrc;
+    private BufferedReader in;
 
     public KeyReader(InputStream s) {
         inputSrc = s;
+        in = new BufferedReader(new InputStreamReader(inputSrc));
     }
 
     public int[] getKeys(int length) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(inputSrc));
         char[] keys = new char[length];
         in.read(keys, 0, length);
         int[] keyCodes = new int[length];
@@ -35,5 +36,9 @@ public class KeyReader {
             case 68: return 'L';
             default: return 'X';
         }
+    }
+
+    public boolean ready() throws IOException {
+        return in.ready();
     }
 }

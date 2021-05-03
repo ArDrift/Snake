@@ -16,7 +16,7 @@ The program is WIP as of yet.
   - [x] Draw field and elements
   - [x] Draw snake (moving)
   - [x] Control snake
-    - [ ] Scheduled move (input only sets direction)
+    - [x] Scheduled move (input only sets direction)
     - [x] Handle collision
   - [x] Apple-eating mechanism
     - [x] Apple regeneration
