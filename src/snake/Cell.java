@@ -15,4 +15,9 @@ public class Cell {
     protected void setType(char c) {
        type = c;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(type);
+    }
 }

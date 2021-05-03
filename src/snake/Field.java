@@ -1,4 +1,5 @@
 package snake;
+import java.io.PrintWriter;
 
 public class Field {
     private int width;
@@ -22,6 +23,18 @@ public class Field {
 
     public void setMatrix(int w, int h) {
         matrix = new Cell[w][h];
+    }
+
+    public void printMatrix(PrintWriter wt) {
+        for (int c = 0; c < matrix.length; c++) {
+            for (int r = 0; r < matrix[c].length; r++) {
+                wt.print(matrix[r][c].toString());
+                if (r != matrix.length-1) {
+                    wt.print(" ");
+                }
+            }
+            wt.println();
+        }
     }
 
     public void setCell(int x, int y, char c) {

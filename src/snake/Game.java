@@ -1,6 +1,10 @@
 package snake;
 import java.io.IOException;
 import java.util.Random;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.PrintWriter;
 
 public class Game {
     private Field field;
@@ -107,5 +111,20 @@ public class Game {
 
     public void addPts(int d) {
         pts += d;
+    }
+
+    public void saveGame() throws IOException {
+        File save = new File("save.txt");
+        if (!save.exists()) {
+            save.createNewFile();
+        }
+        PrintWriter wt = new PrintWriter(
+                         new BufferedWriter(new FileWriter("save.txt")));
+
+        field.printMatrix(wt);
+        wt.println("");
+        wt.println(pts);
+
+        wt.close();
     }
 }
