@@ -27,6 +27,25 @@ public class Game {
 
     }
 
+    public Game(Field f, Snake s, int p, Apple a) {
+        field = f;
+        snake = s;
+        pts = p;
+        apple = a;
+    }
+
+    public Game() {
+    }
+
+    public void setDefaults() {
+        field = new Field(20, 20);
+        snake = new Snake(randomSpace()[0], randomSpace()[1], 'U');
+        pts = 0;
+        field.setCell(snake.getPos()[0], snake.getPos()[1], snake.getDir());
+        apple = new Apple(randomSpace());
+        field.setCell(apple.getPos()[0], apple.getPos()[1], 'a');
+    }
+
     public void start() throws IOException, InterruptedException {
         for (int[] b : snake.getBody()) {
             field.setCell(b[0], b[1], 's');
@@ -158,7 +177,7 @@ public class Game {
             hs.createNewFile();
         }
         PrintWriter wt = new PrintWriter(
-                         new BufferedWriter(new FileWriter("highscores.txt")));
+                         new BufferedWriter(new FileWriter(hs)));
         for (HighScore x : highs) {
             wt.println(x.getName());
             wt.println(x.getPts());
@@ -183,5 +202,54 @@ public class Game {
         wt.println(pts);
 
         wt.close();
+    }
+
+    public Game loadGame() throws IOException, InterruptedException {
+        File save = new File("save.txt");
+        Game game; int pts = 0;
+        if (save.exists()) {
+            BufferedReader in = new BufferedReader(new FileReader(save));
+            String line = in.readLine();
+            ArrayList<ArrayList<Character>> matrix = new ArrayList<>();
+            while (line != null) {
+                ArrayList<Character> row = new ArrayList<>();
+                for (String c: line.split(" ")) {
+                    row.add(c.charAt(0));
+                }
+                matrix.add(row);
+                line = in.readLine();
+                if (line != null && line.equals("")) {
+                    line = in.readLine();
+                    pts = Integer.parseInt(line);
+                    line = in.readLine();
+                }
+            }
+
+            Cell[][] arrayMatrix = new Cell[matrix.size()]
+                                           [matrix.get(0).size()];
+            char currentChar; char snakeD = ' '; int[] snakeP = new int[2];
+            int[] aPos = new int[2];
+            ArrayList<int[]> snakeB = new ArrayList<>();
+            for (int y = 0; y < matrix.size(); y++) {
+                for (int x = 0; x < matrix.get(y).size(); x++) {
+                    currentChar = matrix.get(y).get(x);
+                    arrayMatrix[y][x] = new Cell(currentChar);
+                    if (currentChar == 'U' || currentChar == 'D'
+                        || currentChar == 'L' || currentChar == 'R') {
+                            snakeD = currentChar;
+                            snakeP[0] = x; snakeP[1] = y;
+                    } else if (currentChar == 's') {
+                        snakeB.add(new int[] {x, y});
+                    } else if (currentChar == 'a') {
+                        aPos[0] = x; aPos[1] = y;
+                    }
+                }
+            }
+            return new Game(new Field(arrayMatrix),
+                            new Snake(snakeP[0], snakeP[1], snakeD, snakeB),
+                            pts, new Apple(aPos));
+        } else {
+            return new Game(new Field(20, 20), new Snake(10, 10, 'U'), 0);
+        }
     }
 }

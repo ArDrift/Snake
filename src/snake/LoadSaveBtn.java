@@ -7,7 +7,13 @@ public class LoadSaveBtn extends Button {
 
     @Override
     public void action() {
-        //startGame(getSave());
+        try {
+            Game save = new Game();
+            save = save.loadGame();
+            save.start();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
-
 }

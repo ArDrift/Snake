@@ -37,6 +37,11 @@ public class Snake {
         }
     }
 
+    public Snake(int px, int py, char d, ArrayList<int[]> b) {
+        pos[0] = px; pos[1] = py; dir = d;
+        body = b; length = b.size();
+    }
+
     public int[] getPos() {
         return pos;
     }

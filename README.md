@@ -6,11 +6,12 @@ The program is WIP as of yet.
 ## To-dos:
 - [ ] Menu layout, buttons
   - [x] Start new game
-  - [ ] Load saved game
+  - [x] Load saved game
   - [ ] Set field size
   - [ ] Custom field maker
-  - [ ] High scores
-    - [ ] Comparable (order by name / points)
+  - [x] High scores
+    - [x] Comparable (order by name / points)
+    - [x] Save high score
   - [ ] Close
 - [ ] In-game functionality
   - [x] Draw field and elements
@@ -26,4 +27,3 @@ The program is WIP as of yet.
     - [ ] Save game
     - [ ] Resume
     - [ ] Exit
-  - [ ] Save high score
