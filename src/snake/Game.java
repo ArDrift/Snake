@@ -3,8 +3,13 @@ import java.io.IOException;
 import java.util.Random;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.util.Collections;
 
 public class Game {
     private Field field;
@@ -65,6 +70,8 @@ public class Game {
                 keys = keyRead.getKeys(3);
             }
         }
+        saveGame();
+        saveHighScore(new HighScore("ArDrift", pts));
     }
 
     public char opposite(char dir) {
@@ -111,6 +118,56 @@ public class Game {
 
     public void addPts(int d) {
         pts += d;
+    }
+
+    public ArrayList<HighScore> getHighScores() throws IOException {
+        ArrayList<HighScore> highs = new ArrayList<>();
+        File hs = new File("highscores.txt");
+        if (!hs.exists()) {
+            return highs;
+        } else {
+            BufferedReader in = new BufferedReader(
+                                new FileReader("highscores.txt"));
+            String line = in.readLine();
+            while (line != null) {
+                String name = line; line = in.readLine();
+                int pts = Integer.parseInt(line); line = in.readLine();
+                LocalDateTime date = LocalDateTime.parse(line);
+                highs.add(new HighScore(name, pts, date));
+                line = in.readLine();
+                if (line != null && line.equals("")) {
+                    line = in.readLine();
+                }
+            }
+            return highs;
+        }
+    }
+
+    public void saveHighScore(HighScore h) throws IOException {
+        ArrayList<HighScore> highs = getHighScores();
+        if (highs.size() < 5
+            || h.getPts() > highs.get(highs.size()-1).getPts()) {
+            highs.add(h);
+            highs.sort(Collections.reverseOrder(new PtsComparator()));
+            if (highs.size() > 5) {
+                highs.remove(highs.get(highs.size()-1));
+            }
+        }
+        File hs = new File("highscores.txt");
+        if (!hs.exists()) {
+            hs.createNewFile();
+        }
+        PrintWriter wt = new PrintWriter(
+                         new BufferedWriter(new FileWriter("highscores.txt")));
+        for (HighScore x : highs) {
+            wt.println(x.getName());
+            wt.println(x.getPts());
+            wt.println(x.getDate());
+            if (x != highs.get(highs.size()-1)) {
+                wt.println("");
+            }
+        }
+        wt.close();
     }
 
     public void saveGame() throws IOException {
