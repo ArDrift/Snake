@@ -46,7 +46,7 @@ public class Field {
         }
     }
 
-    public void print() {
+    public void print(int data) {
         String w = new String(new char[getSize()[0]*2]).replace("\0", "═");
         System.out.println("╔" + w + "╗" + "\r");
         for (int i = 0; i < getMatrix()[0].length; i++) {
@@ -54,7 +54,17 @@ public class Field {
             for (int j = 0; j < getMatrix().length; j++) {
                 System.out.print(displayCell(getMatrix()[j][i]));
             }
-            System.out.println("║" + "\r");
+            System.out.println("║" + "  ");
+            int bw = String.valueOf(data).length();
+            String bwStr = new String(new char[bw]).replace("\0", "═");
+            switch (i) {
+                case 0: System.out.print("PTS:" + "\r"); break;
+                case 1: System.out.print("╔" + bwStr + "╗" + "\r"); break;
+                case 2: System.out.print("║" + data  + "║" + "\r"); break;
+                case 3: System.out.print("╚" + bwStr + "╝" + "\r"); break;
+                default: System.out.print("\r");
+
+            }
         }
         System.out.println("╚" + w + "╝" + "\r");
     }

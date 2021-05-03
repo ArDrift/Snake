@@ -11,7 +11,7 @@ public class Snake {
         pos[0] = px;
         pos[1] = py;
         dir = d;
-        length = 10;
+        length = 2;
         switch (dir) {
             case 'U':
                 for (int i = 1; i <= length; i++) {

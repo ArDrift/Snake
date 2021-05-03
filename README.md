@@ -21,7 +21,7 @@ The program is WIP as of yet.
   - [x] Apple-eating mechanism
     - [x] Apple regeneration
     - [x] Snake growing
-  - [ ] Point system
+  - [x] Point system
   - [ ] In-game pause
     - [ ] Save game
     - [ ] Resume

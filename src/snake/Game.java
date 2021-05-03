@@ -23,7 +23,7 @@ public class Game {
             field.setCell(b[0], b[1], 's');
         }
         Main.clearScr();
-        field.print();
+        field.print(pts);
         KeyReader keyRead = new KeyReader(System.in);
         int[] keys = new int[] {0, 0, 0};
         if (keyRead.ready() && keyRead.isArrow(keys)) {
@@ -45,12 +45,13 @@ public class Game {
                                 snake.getPos()[1]).getType() == 'a') {
                     field.setCell(tailPos[0], tailPos[1], 's');
                     snake.grow();
+                    addPts(1);
                     apple.setPos(randomSpace());
                     field.setCell(
                                 apple.getPos()[0], apple.getPos()[1], 'a');
                     }
                 updateField();
-                field.print();
+                field.print(pts);
             } else if (snake.getDir() != opposite(newDir)) {
                 break;
             }
@@ -102,5 +103,9 @@ public class Game {
             y = r.nextInt(field.getSize()[1]);
         }
         return new int [] {x, y};
+    }
+
+    public void addPts(int d) {
+        pts += d;
     }
 }
