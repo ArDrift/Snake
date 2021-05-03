@@ -26,19 +26,17 @@ public class Game {
         field.print();
         KeyReader keyRead = new KeyReader(System.in);
         int[] keys = new int[] {0, 0, 0};
-        if (keyRead.ready()) {
+        if (keyRead.ready() && keyRead.isArrow(keys)) {
             keys = keyRead.getKeys(3);
         }
         while (isInside(snake.getPos())) {
-            char keyDir = snake.getDir();
-            if (!(keys[0] == 0 && keys[1] == 0 && keys[2] == 0)) {
-                keyDir = keyRead.arrowDir(keys);
+            char newDir = snake.getDir();
+            if (keyRead.isArrow(keys)
+                && keyRead.arrowDir(keys) != opposite(snake.getDir())) {
+                newDir = keyRead.arrowDir(keys);
             }
-            if (isValid(snake.newPos(snake.getDir()))
-                && snake.getDir() != opposite(keyDir)) {
-                if (keyDir != snake.getDir()) {
-                    snake.setDir(keyDir);
-                }
+            snake.setDir(newDir);
+            if (isValid(snake.newPos(snake.getDir()))) {
                 Main.clearScr();
                 int[] tailPos = snake.getTailPos();
                 field.setCell(tailPos[0], tailPos[1], 'e');
@@ -53,10 +51,11 @@ public class Game {
                     }
                 updateField();
                 field.print();
-            } else if (snake.getDir() != opposite(keyDir)) {
+            } else if (snake.getDir() != opposite(newDir)) {
                 break;
             }
             Thread.sleep(100);
+            keys[0] = 0; keys[1] = 0; keys[2] = 0;
             if (keyRead.ready()) {
                 keys = keyRead.getKeys(3);
             }
