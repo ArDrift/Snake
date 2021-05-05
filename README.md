@@ -12,7 +12,7 @@ The program is WIP as of yet.
   - [x] High scores
     - [x] Comparable (order by name / points)
     - [x] Save high score
-  - [ ] Close
+  - [x] Close
 - [x] In-game functionality
   - [x] Draw field and elements
   - [x] Draw snake (moving)
@@ -27,3 +27,16 @@ The program is WIP as of yet.
     - [x] Save game
     - [x] Resume
     - [x] Exit
+- [ ] Add documentation
+  - [ ] Javadoc
+  - [ ] User manual
+  - [ ] UML
+- [ ] JUnit tests
+- [ ] Bugfixes
+  - [ ] Snake body begints to disappear in incorrect order after loading save
+    - Save body part's index and add parts to body list in order?
+- [ ] Cosmetics
+  - [ ] Move cursor to 0 position instead of clearing whole display
+    (to avoid flickering)
+  - [ ] Title logo
+  - [ ] Cooler menu (formatter?)
