@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
@@ -88,8 +89,12 @@ public class Game {
             if (keyRead.ready()) {
                 keys = keyRead.getKeys(3);
             }
+            if (keys[0] == 27 && keys[1] == 0 && keys[2] == 0) {
+                if (pause(this)) {
+                    break;
+                }
+            }
         }
-        saveGame();
         saveHighScore(new HighScore("ArDrift", pts));
     }
 
@@ -251,5 +256,29 @@ public class Game {
         } else {
             return new Game(new Field(20, 20), new Snake(10, 10, 'U'), 0);
         }
+    }
+
+    public boolean pause(Game g) {
+        boolean exit = false;
+        Menu menu = new Menu(new ArrayList<Button>(Arrays.asList(
+                                            new ResumeBtn("Resume"),
+                                            new SaveGameBtn("Save game", g),
+                                            new ExitBtn("Exit"))));
+        try {
+            int choice = menu.select();
+            while (choice == 1) {
+                Main.setRaw(false);
+                System.out.println("Game was saved successfully");
+                Main.setRaw(true);
+                choice = menu.select();
+            }
+            if (choice == 2) {
+                exit = true;
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return exit;
     }
 }

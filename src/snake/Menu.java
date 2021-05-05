@@ -30,10 +30,22 @@ public class Menu {
         return buttons.size();
     }
 
-    public void select() throws IOException, InterruptedException {
+    public int getActive() {
+        for (int i = 0; i < buttons.size(); i++) {
+            if (buttons.get(i).isActive()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int select() throws IOException, InterruptedException {
         Main.clearScr();
-        int choice = 0;
-        getButton(choice).setActive(true);
+        int choice = getActive();
+        if (choice == -1) {
+            getButton(0).setActive(true);
+            choice = 0;
+        }
         print();
         KeyReader keyRead = new KeyReader(System.in);
         int[] keys = keyRead.getKeys(3);
@@ -63,6 +75,7 @@ public class Menu {
             keys = keyRead.getKeys(3);
         }
         getButton(choice).action();
+        return choice;
         //System.out.println("Run: " + getButton(choice) + "!");
     }
 }

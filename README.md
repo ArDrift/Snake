@@ -13,7 +13,7 @@ The program is WIP as of yet.
     - [x] Comparable (order by name / points)
     - [x] Save high score
   - [ ] Close
-- [ ] In-game functionality
+- [x] In-game functionality
   - [x] Draw field and elements
   - [x] Draw snake (moving)
   - [x] Control snake
@@ -23,7 +23,7 @@ The program is WIP as of yet.
     - [x] Apple regeneration
     - [x] Snake growing
   - [x] Point system
-  - [ ] In-game pause
-    - [ ] Save game
-    - [ ] Resume
-    - [ ] Exit
+  - [x] In-game pause
+    - [x] Save game
+    - [x] Resume
+    - [x] Exit
