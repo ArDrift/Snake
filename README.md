@@ -7,7 +7,7 @@ The program is WIP as of yet.
 - [ ] Menu layout, buttons
   - [x] Start new game
   - [x] Load saved game
-  - [ ] Set field size
+  - [x] Set field size
   - [ ] Custom field maker
   - [x] High scores
     - [x] Comparable (order by name / points)

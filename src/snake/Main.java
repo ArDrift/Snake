@@ -14,7 +14,10 @@ public class Main {
 
         Menu menu = new Menu(btns);
         setRaw(true);
-        menu.select();
+        int choice = menu.select();
+        while (choice != 4) {
+            choice = menu.select();
+        }
 
         setRaw(false);
 
