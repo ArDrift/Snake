@@ -36,6 +36,10 @@ public class KeyReader {
         return keys[0] == 27 && keys[1] == 0 && keys[2] == 0;
     }
 
+    public boolean isSpace(int[] keys) {
+        return keys[0] == 32 && keys[1] == 0 && keys[2] == 0;
+    }
+
     public char arrowDir(int[] keyCodes) {
         switch (keyCodes[2]) {
             case 65: return 'U';

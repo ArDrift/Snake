@@ -52,7 +52,7 @@ public class Game {
             field.setCell(b[0], b[1], 's');
         }
         Main.clearScr();
-        field.print(pts);
+        field.print(pts, "PTS:");
         KeyReader keyRead = new KeyReader(System.in);
         int[] keys = new int[] {0, 0, 0};
         if (keyRead.ready() && keyRead.isArrow(keys)) {
@@ -80,7 +80,7 @@ public class Game {
                                 apple.getPos()[0], apple.getPos()[1], 'a');
                     }
                 updateField();
-                field.print(pts);
+                field.print(pts, "PTS:");
             } else if (snake.getDir() != opposite(newDir)) {
                 break;
             }
@@ -95,6 +95,7 @@ public class Game {
                 }
             }
         }
+        cleanupField();
         saveHighScore(new HighScore("ArDrift", pts));
     }
 
@@ -113,6 +114,16 @@ public class Game {
         for (int[] bPos: snake.getBody()) {
             if (field.getCell(bPos[0], bPos[1]).getType() != 'o') {
                 field.getCell(bPos[0], bPos[1]).setType('s');
+            }
+        }
+    }
+
+    public void cleanupField() {
+        for (int y = 0; y < field.getSize()[1]; y++) {
+            for (int x = 0; x < field.getSize()[0]; x++) {
+                if (field.getCell(x, y).getType() != 'o') {
+                    field.getCell(x, y).setType('e');
+                }
             }
         }
     }
