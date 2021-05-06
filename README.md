@@ -4,11 +4,11 @@
 The program is WIP as of yet.
 
 ## To-dos:
-- [ ] Menu layout, buttons
+- [x] Menu layout, buttons
   - [x] Start new game
   - [x] Load saved game
   - [x] Set field size
-  - [ ] Custom field maker
+  - [x] Custom field maker
   - [x] High scores
     - [x] Comparable (order by name / points)
     - [x] Save high score

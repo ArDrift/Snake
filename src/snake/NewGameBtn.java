@@ -17,8 +17,14 @@ public class NewGameBtn extends Button {
             case 2: dir = 'R'; break;
             case 3: dir = 'L'; break;
         }
-        Game game = new Game(new Field(fSize, fSize),
-                             new Snake(fSize/2, fSize/2, dir), 0);
+        Field field = new Field(fSize, fSize);
+        Snake snake = new Snake(fSize/2, fSize/2, dir);
+
+        if (CustomFieldBtn.isCustom()) {
+            field = CustomFieldBtn.getCustomField();
+        }
+
+        Game game = new Game(field, snake, 0);
         try {
             game.start();
         } catch (Exception e) {
