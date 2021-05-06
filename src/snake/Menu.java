@@ -49,7 +49,7 @@ public class Menu {
         print();
         KeyReader keyRead = new KeyReader(System.in);
         int[] keys = keyRead.getKeys(3);
-        while (keys[0] != 13) {
+        while (!keyRead.isEnter(keys)) {
             if (keyRead.isArrow(keys)) {
                 getButton(choice).setActive(false);
                 switch (keyRead.arrowDir(keys)) {

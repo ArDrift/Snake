@@ -28,6 +28,14 @@ public class KeyReader {
                (keys[2] >= 65 && keys[2] <= 68);
     }
 
+    public boolean isEnter(int[] keys) {
+        return keys[0] == 13 && keys[1] == 0 && keys[2] == 0;
+    }
+
+    public boolean isEscape(int[] keys) {
+        return keys[0] == 27 && keys[1] == 0 && keys[2] == 0;
+    }
+
     public char arrowDir(int[] keyCodes) {
         switch (keyCodes[2]) {
             case 65: return 'U';
