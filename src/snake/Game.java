@@ -38,15 +38,6 @@ public class Game {
     public Game() {
     }
 
-    public void setDefaults() {
-        field = new Field(20, 20);
-        snake = new Snake(randomSpace()[0], randomSpace()[1], 'U');
-        pts = 0;
-        field.setCell(snake.getPos()[0], snake.getPos()[1], snake.getDir());
-        apple = new Apple(randomSpace());
-        field.setCell(apple.getPos()[0], apple.getPos()[1], 'a');
-    }
-
     public void start() throws IOException, InterruptedException {
         for (int[] b : snake.getBody()) {
             field.setCell(b[0], b[1], 's');
