@@ -34,6 +34,7 @@ public class SetFieldBtn extends Button {
 
     public static void setFieldSize(int s) {
         fieldSize = s;
+        CustomFieldBtn.setCustom(false);
     }
 
     public static void resetFieldSize() {

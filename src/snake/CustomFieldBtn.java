@@ -23,7 +23,7 @@ public class CustomFieldBtn extends Button {
         return isCustom;
     }
 
-    public void setCustom(boolean c) {
+    public static void setCustom(boolean c) {
         isCustom = c;
     }
 
