@@ -10,7 +10,7 @@ public class Main {
             new LoadSaveBtn("Load save"),
             new SetFieldBtn("Set field size"),
             new CustomFieldBtn("Create custom field"),
-            new HighScoresBtn("High scores"),
+            new HighScoresBtn("Leaderboard"),
             new DummyBtn("Exit")));
 
         Menu menu = new Menu(btns);

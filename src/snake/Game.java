@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +88,18 @@ public class Game {
             }
         }
         cleanupField();
-        saveHighScore(new HighScore("ArDrift", pts));
+        if (isHighScore(pts)) {
+            Main.setRaw(false);
+            System.out.println("Congratulations, you have "
+                               + "earned a place on the leaderboard!");
+            Thread.sleep(1000);
+            System.out.println("Enter your name: ");
+            BufferedReader in = new BufferedReader(
+                                new InputStreamReader(System.in));
+            String name = in.readLine();
+            Main.setRaw(true);
+            saveHighScore(new HighScore(name, pts));
+        }
     }
 
     public char opposite(char dir) {
@@ -146,15 +158,17 @@ public class Game {
         pts += d;
     }
 
+    public boolean isHighScore(int pts) throws IOException {
+        ArrayList<HighScore> highs = HighScoresBtn.getHighScores();
+        return (highs.size() < 5 || pts > highs.get(highs.size()-1).getPts());
+    }
+
     public void saveHighScore(HighScore h) throws IOException {
         ArrayList<HighScore> highs = HighScoresBtn.getHighScores();
-        if (highs.size() < 5
-            || h.getPts() > highs.get(highs.size()-1).getPts()) {
-            highs.add(h);
-            highs.sort(Collections.reverseOrder(new PtsComparator()));
-            if (highs.size() > 5) {
-                highs.remove(highs.get(highs.size()-1));
-            }
+        highs.add(h);
+        highs.sort(Collections.reverseOrder(new PtsComparator()));
+        if (highs.size() > 5) {
+            highs.remove(highs.get(highs.size()-1));
         }
         File hs = new File("highscores.txt");
         if (!hs.exists()) {
