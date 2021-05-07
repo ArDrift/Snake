@@ -1,7 +1,7 @@
 package snake;
 
-public class ExitBtn extends Button {
-    public ExitBtn(String n) {
+public class DummyBtn extends Button {
+    public DummyBtn(String n) {
         super(n);
     }
 
@@ -9,5 +9,4 @@ public class ExitBtn extends Button {
     public void action() {
         return;
     }
-
 }

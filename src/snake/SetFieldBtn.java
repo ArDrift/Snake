@@ -13,7 +13,7 @@ public class SetFieldBtn extends Button {
         Menu menu = new Menu(new ArrayList<Button>(Arrays.asList(
                     new ResetFieldSizeBtn("Reset"),
                     new ChangeFieldSizeBtn("Current size: " + getFieldSize()),
-                    new ExitBtn("Back"))));
+                    new DummyBtn("Back"))));
         try {
             int choice = menu.select();
             while (choice == 1) {

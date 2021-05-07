@@ -10,12 +10,13 @@ public class Main {
             new LoadSaveBtn("Load save"),
             new SetFieldBtn("Set field size"),
             new CustomFieldBtn("Create custom field"),
-            new ExitBtn("Exit")));
+            new HighScoresBtn("High scores"),
+            new DummyBtn("Exit")));
 
         Menu menu = new Menu(btns);
         setRaw(true);
         int choice = menu.select();
-        while (choice != 4) {
+        while (choice != menu.getSize()-1) {
             choice = menu.select();
         }
 

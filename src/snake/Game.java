@@ -146,31 +146,8 @@ public class Game {
         pts += d;
     }
 
-    public ArrayList<HighScore> getHighScores() throws IOException {
-        ArrayList<HighScore> highs = new ArrayList<>();
-        File hs = new File("highscores.txt");
-        if (!hs.exists()) {
-            return highs;
-        } else {
-            BufferedReader in = new BufferedReader(
-                                new FileReader("highscores.txt"));
-            String line = in.readLine();
-            while (line != null) {
-                String name = line; line = in.readLine();
-                int pts = Integer.parseInt(line); line = in.readLine();
-                LocalDateTime date = LocalDateTime.parse(line);
-                highs.add(new HighScore(name, pts, date));
-                line = in.readLine();
-                if (line != null && line.equals("")) {
-                    line = in.readLine();
-                }
-            }
-            return highs;
-        }
-    }
-
     public void saveHighScore(HighScore h) throws IOException {
-        ArrayList<HighScore> highs = getHighScores();
+        ArrayList<HighScore> highs = HighScoresBtn.getHighScores();
         if (highs.size() < 5
             || h.getPts() > highs.get(highs.size()-1).getPts()) {
             highs.add(h);
@@ -263,9 +240,9 @@ public class Game {
     public boolean pause(Game g) {
         boolean exit = false;
         Menu menu = new Menu(new ArrayList<Button>(Arrays.asList(
-                                            new ResumeBtn("Resume"),
+                                            new DummyBtn("Resume"),
                                             new SaveGameBtn("Save game", g),
-                                            new ExitBtn("Exit"))));
+                                            new DummyBtn("Exit"))));
         try {
             int choice = menu.select();
             while (choice == 1) {
