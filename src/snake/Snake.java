@@ -63,6 +63,14 @@ public class Snake {
         return body;
     }
 
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int l) {
+        length = l;
+    }
+
     public int[] newPos(char dir) {
         switch (dir) {
             case 'U': return new int[] {getPos()[0], getPos()[1]-1};
@@ -91,5 +99,6 @@ public class Snake {
 
     public void grow() {
         body.add(new int[] {getTailPos()[0], getTailPos()[1]});
+        setLength(getLength() + 1);
     }
 }

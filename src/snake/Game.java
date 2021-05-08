@@ -40,8 +40,10 @@ public class Game {
     }
 
     public void start() throws IOException, InterruptedException {
-        for (int[] b : snake.getBody()) {
+        for (int i = 0; i < snake.getBody().size(); i++) {
+            int[] b = snake.getBody().get(i);
             field.setCell(b[0], b[1], 's');
+            field.getCell(b[0], b[1]).setData(i);
         }
         Main.clearScr();
         field.print(pts, "PTS:");
@@ -65,6 +67,8 @@ public class Game {
                 if (field.getCell(snake.getPos()[0],
                                 snake.getPos()[1]).getType() == 'a') {
                     field.setCell(tailPos[0], tailPos[1], 's');
+                    field.getCell(tailPos[0], tailPos[1]).setData(
+                                                        snake.getLength()-1);
                     snake.grow();
                     addPts(1);
                     apple.setPos(randomSpace());
@@ -114,9 +118,11 @@ public class Game {
 
     public void updateField() {
         field.setCell(snake.getPos()[0], snake.getPos()[1], snake.getDir());
-        for (int[] bPos: snake.getBody()) {
+        for (int b = 0; b < snake.getBody().size(); b++) {
+            int[] bPos = snake.getBody().get(b);
             if (field.getCell(bPos[0], bPos[1]).getType() != 'o') {
-                field.getCell(bPos[0], bPos[1]).setType('s');
+                field.setCell(bPos[0], bPos[1], 's');
+                field.getCell(bPos[0], bPos[1]).setData(b);
             }
         }
     }
@@ -208,11 +214,11 @@ public class Game {
         if (save.exists()) {
             BufferedReader in = new BufferedReader(new FileReader(save));
             String line = in.readLine();
-            ArrayList<ArrayList<Character>> matrix = new ArrayList<>();
+            ArrayList<ArrayList<String>> matrix = new ArrayList<>();
             while (line != null) {
-                ArrayList<Character> row = new ArrayList<>();
+                ArrayList<String> row = new ArrayList<>();
                 for (String c: line.split(" ")) {
-                    row.add(c.charAt(0));
+                    row.add(c);
                 }
                 matrix.add(row);
                 line = in.readLine();
@@ -226,25 +232,37 @@ public class Game {
             Cell[][] arrayMatrix = new Cell[matrix.size()]
                                            [matrix.get(0).size()];
             char currentChar; char snakeD = ' '; int[] snakeP = new int[2];
-            int[] aPos = new int[2];
+            int[] aPos = new int[2]; int currentData = -1;
             ArrayList<int[]> snakeB = new ArrayList<>();
             for (int y = 0; y < matrix.size(); y++) {
                 for (int x = 0; x < matrix.get(y).size(); x++) {
-                    currentChar = matrix.get(y).get(x);
-                    arrayMatrix[y][x] = new Cell(currentChar);
+                    if (Character.isDigit(matrix.get(y).get(x).charAt(0))) {
+                        currentChar = 's';
+                        currentData = Integer.parseInt(matrix.get(y).get(x));
+                        arrayMatrix[y][x] = new Cell(currentChar, currentData);
+
+                    } else {
+                        currentChar = matrix.get(y).get(x).charAt(0);
+                        arrayMatrix[y][x] = new Cell(currentChar);
+                    }
                     if (currentChar == 'U' || currentChar == 'D'
                         || currentChar == 'L' || currentChar == 'R') {
                             snakeD = currentChar;
                             snakeP[0] = x; snakeP[1] = y;
                     } else if (currentChar == 's') {
-                        snakeB.add(new int[] {x, y});
+                        snakeB.add(new int[] {x, y, currentData});
                     } else if (currentChar == 'a') {
                         aPos[0] = x; aPos[1] = y;
                     }
                 }
             }
+            snakeB.sort(new SnakeDataComparator());
+            ArrayList<int[]> snakeBody = new ArrayList<>();
+            for (int[] s : snakeB) {
+                snakeBody.add(new int[] {s[0], s[1]});
+            }
             return new Game(new Field(arrayMatrix),
-                            new Snake(snakeP[0], snakeP[1], snakeD, snakeB),
+                            new Snake(snakeP[0], snakeP[1], snakeD, snakeBody),
                             pts, new Apple(aPos));
         } else {
             return new Game(new Field(20, 20), new Snake(10, 10, 'U'), 0);

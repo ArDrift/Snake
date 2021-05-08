@@ -32,8 +32,8 @@ The program is WIP as of yet.
   - [ ] User manual
   - [ ] UML
 - [ ] JUnit tests
-- [ ] Bugfixes
-  - [ ] Snake body begints to disappear in incorrect order after loading save
+- [x] Bugfixes
+  - [x] Snake body begints to disappear in incorrect order after loading save
     - Save body part's index and add parts to body list in order?
 - [ ] Cosmetics
   - [ ] Move cursor to 0 position instead of clearing whole display

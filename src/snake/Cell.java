@@ -4,8 +4,14 @@ public class Cell {
     private char type;
     // 'e' = empty; 'o' = obstacle; 's' = snake; 'a' = apple
     // U/D/L/R = snake-head: ('U' = up; 'D' = down; 'R' = right; 'L' = left)
-    public Cell (char c) {
+    private int data = -1;
+    public Cell(char c) {
         type = c;
+    }
+
+    public Cell(char c, int d) {
+        type = c;
+        data = d;
     }
 
     public char getType() {
@@ -19,5 +25,13 @@ public class Cell {
     @Override
     public String toString() {
         return String.valueOf(type);
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int d) {
+        data = d;
     }
 }

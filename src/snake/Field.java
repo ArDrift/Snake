@@ -34,7 +34,11 @@ public class Field {
     public void printMatrix(PrintWriter wt) {
         for (int c = 0; c < matrix.length; c++) {
             for (int r = 0; r < matrix[c].length; r++) {
-                wt.print(matrix[c][r].toString());
+                if (matrix[c][r].getType() == 's') {
+                    wt.print(matrix[c][r].getData());
+                } else {
+                    wt.print(matrix[c][r].toString());
+                }
                 if (r != matrix.length-1) {
                     wt.print(" ");
                 }
