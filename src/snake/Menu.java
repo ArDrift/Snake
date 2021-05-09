@@ -16,7 +16,7 @@ public class Menu {
             if (b.isActive()) {
                 System.out.println("\r" + ">> " + b + " <<");
             } else {
-                System.out.println("\r" + b);
+                System.out.println("\r" + b + "      ");
             }
         }
         System.out.print("\r");
@@ -70,11 +70,12 @@ public class Menu {
                 }
             }
             getButton(choice).setActive(true);
-            Main.clearScr();
+            Main.cursorToZero();
             print();
             keys = keyRead.getKeys(3);
         }
         getButton(choice).action();
+        Main.clearScr();
         return choice;
         //System.out.println("Run: " + getButton(choice) + "!");
     }

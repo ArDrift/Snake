@@ -16,11 +16,8 @@ public class SetFieldBtn extends Button {
                     new DummyBtn("Back"))));
         try {
             int choice = menu.select();
-            while (choice == 1) {
-                choice = menu.select();
-                if (choice == 2) {
-                    return;
-                }
+            if (choice == 2) {
+                return;
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -51,13 +48,13 @@ public class SetFieldBtn extends Button {
                     if (keyR.arrowDir(keys) == 'U') {
                         if (current < 50) {
                             current += 1;
-                            System.out.print("Current size: "
+                            System.out.print("New size: "
                                             + current + " " + "\r");
                         }
                     } else if (keyR.arrowDir(keys) == 'D') {
                         if (current > 7) {
                             current -= 1;
-                            System.out.print("Current size: "
+                            System.out.print("New size: "
                                             + current + " " + "\r");
                         }
                     }

@@ -45,7 +45,7 @@ public class Game {
             field.setCell(b[0], b[1], 's');
             field.getCell(b[0], b[1]).setData(i);
         }
-        Main.clearScr();
+        Main.cursorToZero();
         field.print(pts, "PTS:");
         KeyReader keyRead = new KeyReader(System.in);
         int[] keys = new int[] {0, 0, 0};
@@ -60,7 +60,7 @@ public class Game {
             }
             snake.setDir(newDir);
             if (isValid(snake.newPos(snake.getDir()))) {
-                Main.clearScr();
+                Main.cursorToZero();
                 int[] tailPos = snake.getTailPos();
                 field.setCell(tailPos[0], tailPos[1], 'e');
                 snake.move(snake.getDir());
@@ -92,14 +92,17 @@ public class Game {
             }
         }
         cleanupField();
+        Main.clearScr();
+        Main.printLogo(new File("logos", "game_over.txt"));
+        Thread.sleep(1000);
         if (isHighScore(pts)) {
-            Main.setRaw(false);
-            System.out.println("Congratulations, you have "
+            System.out.println("\r" + "Congratulations, you have "
                                + "earned a place on the leaderboard!");
             Thread.sleep(1000);
-            System.out.println("Enter your name: ");
+            System.out.println("\r" + "Enter your name: " + "\r");
             BufferedReader in = new BufferedReader(
                                 new InputStreamReader(System.in));
+            Main.setRaw(false);
             String name = in.readLine();
             Main.setRaw(true);
             saveHighScore(new HighScore(name, pts));

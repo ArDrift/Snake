@@ -38,5 +38,5 @@ The program is WIP as of yet.
 - [ ] Cosmetics
   - [ ] Move cursor to 0 position instead of clearing whole display
     (to avoid flickering)
-  - [ ] Title logo
+  - [x] Title logo
   - [ ] Cooler menu (formatter?)

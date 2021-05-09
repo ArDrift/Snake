@@ -12,6 +12,7 @@ public class CustomField {
         int cPosX = 0; int cPosY = 0; int obstacles = 0;
         field.setCell(cPosX, cPosY, 's');
 
+        Main.cursorToZero();
         field.print(obstacles, "Obstacles:");
         KeyReader keyR = new KeyReader(System.in);
         int[] keys = keyR.getKeys(3);
@@ -62,10 +63,11 @@ public class CustomField {
                     field.setCell(cPosX, cPosY, 's');
                 }
             }
-            Main.clearScr();
+            Main.cursorToZero();
             field.print(obstacles, "Obstacles:");
             keys = keyR.getKeys(3);
         }
+        Main.clearScr();
         return field;
     }
 

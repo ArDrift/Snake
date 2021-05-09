@@ -2,6 +2,10 @@ package snake;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.IOException;
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -36,6 +40,28 @@ public class Main {
             System.out.print("\033[H\033[2J");
             System.out.flush();
         }
+        try {
+            printLogo(new File("logos", "logo.txt"));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void cursorToZero() throws IOException, InterruptedException {
+        if (isWindows()) {
+            new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
+        } else {
+            System.out.print("\033[H");
+            System.out.flush();
+        }
+        try {
+            printLogo(new File("logos", "logo.txt"));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 
     public static void setRaw(boolean raw) throws IOException, InterruptedException {
@@ -49,6 +75,17 @@ public class Main {
             }
             Runtime.getRuntime().exec(rawCmd).waitFor();
             Runtime.getRuntime().exec(echoCmd).waitFor();
+        }
+    }
+
+    public static void printLogo(File logo) throws IOException, FileNotFoundException {
+        if (logo.exists()) {
+            BufferedReader l = new BufferedReader(new FileReader(logo));
+            String line = l.readLine();
+            while (line != null) {
+                System.out.println("\r" + line);
+                line = l.readLine();
+            }
         }
     }
 }
