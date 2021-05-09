@@ -19,6 +19,8 @@ public class Menu {
                 System.out.println("\r" + b + "      ");
             }
         }
+        System.out.println("");
+        System.out.println("Control: ↑ ↓ → ← ENTER ESC");
         System.out.print("\r");
     }
 

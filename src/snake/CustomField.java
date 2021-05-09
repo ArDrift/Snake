@@ -14,6 +14,8 @@ public class CustomField {
 
         Main.cursorToZero();
         field.print(obstacles, "Obstacles:");
+        System.out.println("");
+        System.out.println("      Control: ↑ ↓ → ← SPACE ENTER");
         KeyReader keyR = new KeyReader(System.in);
         int[] keys = keyR.getKeys(3);
         while (!keyR.isEnter(keys)) {

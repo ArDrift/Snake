@@ -47,6 +47,8 @@ public class Game {
         }
         Main.cursorToZero();
         field.print(pts, "PTS:");
+        System.out.println("");
+        System.out.println("       Control: ↑ ↓ → ← ENTER ESC");
         KeyReader keyRead = new KeyReader(System.in);
         int[] keys = new int[] {0, 0, 0};
         if (keyRead.ready() && keyRead.isArrow(keys)) {
