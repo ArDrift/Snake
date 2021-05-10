@@ -6,8 +6,21 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
+import com.sun.jna.Library;
+import com.sun.jna.Native;
+import com.sun.jna.Library;
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
+import com.sun.jna.ptr.IntByReference;
 
 public class Main {
+    private static int originalConsoleMode;
+    private static Kernel32 kernel32;
+    private static Pointer consoleHandle;
+    private static boolean initDone;
+    private static boolean stdinIsConsole;
+    private static boolean consoleModeAltered;
+
     public static void main(String[] args) throws IOException, InterruptedException {
         ArrayList<Button> btns = new ArrayList<>(Arrays.asList(
             new NewGameBtn("New game"),
@@ -32,14 +45,10 @@ public class Main {
         return System.getProperty("os.name").contains("Windows");
     }
 
-    public static void clearScr() throws IOException, InterruptedException {
+    public static void clearScr() throws IOException {
         // https://stackoverflow.com/questions/2979383/java-clear-the-console
-        if (isWindows()) {
-            new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
-        } else {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-        }
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
         try {
             printLogo(new File("logos", "logo.txt"));
         } catch (Exception e) {
@@ -48,13 +57,9 @@ public class Main {
         }
     }
 
-    public static void cursorToZero() throws IOException, InterruptedException {
-        if (isWindows()) {
-            new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
-        } else {
-            System.out.print("\033[H");
-            System.out.flush();
-        }
+    public static void cursorToZero() throws IOException {
+        System.out.print("\033[H");
+        System.out.flush();
         try {
             printLogo(new File("logos", "logo.txt"));
         } catch (Exception e) {
@@ -75,7 +80,130 @@ public class Main {
             }
             Runtime.getRuntime().exec(rawCmd).waitFor();
             Runtime.getRuntime().exec(echoCmd).waitFor();
+        } else {
+            if (raw) {
+                try {
+                    initWindows();
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                    e.printStackTrace();
+                }
+                consoleModeAltered = true;
+                setConsoleMode(consoleHandle, originalConsoleMode & ~Kernel32Defs.ENABLE_PROCESSED_INPUT);
+                enableVirtTermSeqs(true);
+            } else {
+                consoleModeAltered = false;
+                resetConsoleModeWindows();
+            }
         }
+    }
+
+    private static void registerShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                shutdownHook();
+            }
+        });
+    }
+
+    private static void shutdownHook() {
+        try {
+            resetConsoleModeWindows();
+        } catch (Exception e) {}
+        }
+
+    private static interface Kernel32 extends Library {
+        int GetConsoleMode (Pointer hConsoleHandle, IntByReference lpMode);
+        int SetConsoleMode (Pointer hConsoleHandle, int dwMode);
+        Pointer GetStdHandle (int nStdHandle);
+    }
+
+    public static void enableVirtTermSeqs(boolean e) {
+        if (e) {
+            try {
+                setConsoleMode(getStdOutputHandle(),
+                    Kernel32Defs.ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+            } catch (Exception err) {
+                System.err.println(err.getMessage());
+                err.printStackTrace();
+            }
+        } else {
+            try {
+                resetConsoleModeWindows();
+            } catch (Exception err) {
+                System.err.println(err.getMessage());
+                err.printStackTrace();
+            }
+        }
+    }
+
+    private static int getConsoleMode (Pointer handle) throws IOException {
+        IntByReference mode = new IntByReference();
+        int rc = kernel32.GetConsoleMode(handle, mode);
+        if (rc == 0) {
+            throw new IOException("GetConsoleMode() failed.");
+        }
+        return mode.getValue();
+    }
+
+    private static void setConsoleMode (Pointer handle, int mode) throws IOException {
+        int rc = kernel32.SetConsoleMode(handle, mode);
+        if (rc == 0) {
+            throw new IOException("SetConsoleMode() failed.");
+        }
+    }
+
+    private static void resetConsoleModeWindows() throws IOException {
+        if (!initDone || !stdinIsConsole || !consoleModeAltered) {
+            return;
+        }
+        setConsoleMode(consoleHandle, originalConsoleMode);
+        consoleModeAltered = false;
+    }
+
+    private static class Kernel32Defs {
+        static final int  STD_INPUT_HANDLE       = -10;
+        static final int  STD_OUTPUT_HANDLE      = -11;
+        static final long INVALID_HANDLE_VALUE   = (Native.POINTER_SIZE == 8) ? -1 : 0xFFFFFFFFL;
+        static final int  ENABLE_PROCESSED_INPUT = 0x0001;
+        static final int  ENABLE_LINE_INPUT      = 0x0002;
+        static final int  ENABLE_ECHO_INPUT      = 0x0004;
+        static final int  ENABLE_WINDOW_INPUT    = 0x0008;
+        static final int  ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
+    }
+
+    private static synchronized void initWindows() throws IOException {
+        if (initDone) {
+            return;
+        }
+        kernel32 = Native.load("kernel32", Kernel32.class);
+        try {
+            consoleHandle = getStdInputHandle();
+            originalConsoleMode = getConsoleMode(consoleHandle);
+            stdinIsConsole = true;
+        } catch (IOException e) {
+            stdinIsConsole = false;
+            if (stdinIsConsole) {
+                registerShutdownHook();
+            }
+        }
+        initDone = true;
+    }
+
+    private static Pointer getStdInputHandle() throws IOException {
+        Pointer handle = kernel32.GetStdHandle(Kernel32Defs.STD_INPUT_HANDLE);
+        if (Pointer.nativeValue(handle) == 0 || Pointer.nativeValue(handle) == Kernel32Defs.INVALID_HANDLE_VALUE) {
+            throw new IOException("GetStdHandle(STD_INPUT_HANDLE) failed.");
+        }
+        return handle;
+    }
+
+    private static Pointer getStdOutputHandle() throws IOException {
+        Pointer handle = kernel32.GetStdHandle(Kernel32Defs.STD_OUTPUT_HANDLE);
+        if (Pointer.nativeValue(handle) == 0 || Pointer.nativeValue(handle) == Kernel32Defs.INVALID_HANDLE_VALUE) {
+            throw new IOException("GetStdHandle(STD_OUTPUT_HANDLE) failed.");
+        }
+        return handle;
     }
 
     public static void printLogo(File logo) throws IOException, FileNotFoundException {
