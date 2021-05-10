@@ -43,10 +43,13 @@ public class HighScoresBtn extends Button {
                 }
 
                 ArrayList<Button> hsBtns = new ArrayList<>();
+                int i = 1;
                 for (HighScore h : hs) {
-                    hsBtns.add(new DummyBtn(h.getName() + ": " + h.getPts()
+                    hsBtns.add(new DummyBtn(i + ". " + h.getName() + ":" + "   "
+                                            + h.getPts() + " pts" + "   "
                                             + " ("+ h.getDate().format(dateF)
-                                            + ")"));
+                                            + ")" + "   "));
+                    i += 1;
                 }
                 hsBtns.add(new DummyBtn("Back"));
 

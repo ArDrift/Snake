@@ -69,6 +69,9 @@ public class CustomField {
             field.print(obstacles, "Obstacles:");
             keys = keyR.getKeys(3);
         }
+        if (field.getCell(cPosX, cPosY).getType() != 'o') {
+            field.setCell(cPosX, cPosY, 'e');
+        }
         Main.clearScr();
         return field;
     }

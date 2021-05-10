@@ -35,8 +35,8 @@ The program is WIP as of yet.
 - [x] Bugfixes
   - [x] Snake body begints to disappear in incorrect order after loading save
     - Save body part's index and add parts to body list in order?
-- [ ] Cosmetics
-  - [ ] Move cursor to 0 position instead of clearing whole display
+- [x] Cosmetics
+  - [x] Move cursor to 0 position instead of clearing whole display
     (to avoid flickering)
   - [x] Title logo
   - [ ] Cooler menu (formatter?)
