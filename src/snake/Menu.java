@@ -77,6 +77,5 @@ public class Menu {
         getButton(choice).action();
         Main.clearScr();
         return choice;
-        //System.out.println("Run: " + getButton(choice) + "!");
     }
 }
