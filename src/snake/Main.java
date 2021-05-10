@@ -86,6 +86,7 @@ public class Main {
                 System.out.println("\r" + line);
                 line = l.readLine();
             }
+            l.close();
         }
     }
 }

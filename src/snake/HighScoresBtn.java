@@ -85,6 +85,7 @@ public class HighScoresBtn extends Button {
                     line = in.readLine();
                 }
             }
+            in.close();
             return highs;
         }
     }

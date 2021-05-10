@@ -1,6 +1,5 @@
 package snake;
 import java.util.Comparator;
-import java.time.LocalDateTime;
 
 public class DateComparator implements Comparator<HighScore> {
     @Override

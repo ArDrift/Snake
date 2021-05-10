@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.time.LocalDateTime;
 import java.util.Collections;
 
 public class Game {
@@ -215,7 +214,7 @@ public class Game {
 
     public Game loadGame() throws IOException, InterruptedException {
         File save = new File("save.txt");
-        Game game; int pts = 0;
+        int pts = 0;
         if (save.exists()) {
             BufferedReader in = new BufferedReader(new FileReader(save));
             String line = in.readLine();
@@ -233,6 +232,7 @@ public class Game {
                     line = in.readLine();
                 }
             }
+            in.close();
 
             Cell[][] arrayMatrix = new Cell[matrix.size()]
                                            [matrix.get(0).size()];
