@@ -7,7 +7,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 
+/**
+* A főprogram indításáért felelős osztály.
+*/
 public class Main {
+
+    /**
+    * A main függvény, ami felépíti a főmenüt, és beállítja a játékhoz
+    * szükséges terminál beállításokat.
+    */
     public static void main(String[] args) throws IOException, InterruptedException {
         ArrayList<Button> btns = new ArrayList<>(Arrays.asList(
             new NewGameBtn("New game"),
@@ -28,10 +36,16 @@ public class Main {
 
     }
 
+    /**
+    * @return igaz, ha a programot futtató rendszer windows, hamis, ha nem.
+    */
     public static boolean isWindows() {
         return System.getProperty("os.name").contains("Windows");
     }
 
+    /**
+    * A konzol törlése.
+    */
     public static void clearScr() throws IOException, InterruptedException {
         // https://stackoverflow.com/questions/2979383/java-clear-the-console
         if (isWindows()) {
@@ -48,6 +62,9 @@ public class Main {
         }
     }
 
+    /**
+    * A kurzor 0 pozícióba helyezése, vagy Windows-on a konzol törlése.
+    */
     public static void cursorToZero() throws IOException, InterruptedException {
         if (isWindows()) {
             new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
@@ -64,6 +81,11 @@ public class Main {
 
     }
 
+    /**
+    * A konzol raw (nyers) mode-ba állítása, ha a rendszer nem Windows.
+    * Ez szükséges a játék működéséhez, hogy a program azonnal megkapjon minden
+    * leütött billentyűt bemenetként.
+    */
     public static void setRaw(boolean raw) throws IOException, InterruptedException {
         // https://stackoverflow.com/questions/1066318/how-to-read-a-single-char-from-the-console-in-java-as-the-user-types-it/1066339#6876253
         if (!isWindows()) {
@@ -78,6 +100,10 @@ public class Main {
         }
     }
 
+    /**
+    * A paraméterként megadott file kiírása.
+    * @param  logo a file aminek tartalmát ki szeretnénk írni a kimenetre
+    */
     public static void printLogo(File logo) throws IOException, FileNotFoundException {
         if (logo.exists()) {
             BufferedReader l = new BufferedReader(new FileReader(logo));

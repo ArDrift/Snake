@@ -1,10 +1,21 @@
 package snake;
 
+/**
+* A Mentés beöltéséért felelős gomb osztálya.
+*/
 public class LoadSaveBtn extends Button {
+
+    /**
+    * Betöltés gomb létrehozása ősosztállyal.
+    * @param  n  a gomb kiirandó neve.
+    */
     public LoadSaveBtn(String n) {
         super(n);
     }
 
+    /**
+    * A gomb kiválasztásakor betöltjük a mentést, és elindítjuk a játékot.
+    */
     @Override
     public void action() {
         try {

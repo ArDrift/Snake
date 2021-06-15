@@ -9,11 +9,23 @@ import java.time.format.DateTimeFormatter;
 import java.io.FileReader;
 import java.util.Collections;
 
+/**
+* A dicsőséglista megjelenítéséért/kezeléséért felelős osztály.
+*/
 public class HighScoresBtn extends Button {
+
+    /**
+    * Gomb létrehozása az ősosztály konstruktora szerint.
+    * @param  n  a gomb neve.
+    */
     public HighScoresBtn(String n) {
         super(n);
     }
 
+    /**
+    * Az adott gombot lenyomva rendezni tudjuk a listát, a választást helyben
+    * vizsgáljuk és aszerint rendezzük a rekordok listáját.
+    */
     public void action() {
         Menu menu = new Menu(new ArrayList<Button>(Arrays.asList(
                                         new DummyBtn("Sort by points"),
@@ -66,6 +78,10 @@ public class HighScoresBtn extends Button {
         }
     }
 
+    /**
+    * A rekordokat beolvasó függvény, ami visszaadja azok listáját.
+    * @return  A beolvasott rekordok listája, üres, ha még egy sem volt mentve.
+    */
     public static ArrayList<HighScore> getHighScores() throws IOException {
         ArrayList<HighScore> highs = new ArrayList<>();
         File hs = new File("highscores.txt");

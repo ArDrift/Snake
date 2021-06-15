@@ -12,12 +12,38 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+* A játék közbeni, és azokhoz közvetlenül kapcsolódó eseményekért felelős
+* osztály, ez fogja össze a játék működéséhez szükséges elemeket.
+*/
 public class Game {
+
+    /**
+    * A játékban használt pálya.
+    */
     private Field field;
+
+    /**
+    * A játék aktuális kígyója.
+    */
     private Snake snake;
+
+    /**
+    * Alma a játékban.
+    */
     private Apple apple;
+
+    /**
+    * A játékbeli pontszám.
+    */
     private int pts;
 
+    /**
+    * Játék létrehozása megadott pályával, kígyóval, és pontszámmal.
+    * @param  f  a pálya.
+    * @param  s  a kígyó.
+    * @param  p  a pontszám.
+    */
     public Game(Field f, Snake s, int p) {
         field = f;
         snake = s;
@@ -28,6 +54,13 @@ public class Game {
 
     }
 
+    /**
+    * Játék létrehozása a fentiek szerint, plusz egy előre megadott almával.
+    * @param  f  a pálya.
+    * @param  s  a kígyó.
+    * @param  p  a pontszám.
+    * @param  a  az alma.
+    */
     public Game(Field f, Snake s, int p, Apple a) {
         field = f;
         snake = s;
@@ -35,9 +68,21 @@ public class Game {
         apple = a;
     }
 
+    /**
+    * Mentés betöltésénél használt üres játék létrehozása, amit később
+    * felülírunk a betöltött mentéssel.
+    */
     public Game() {
     }
 
+    /**
+    * A játék elindítása, a pálya feltöltésével a kígyó testrészei szerint,
+    * a pálya, pontszám, és irányításhoz használható gombok kiíratásával.
+    * Játék közben vizsgáljuk a kígyó pozícióját, hogy a pályán belül legyen,
+    * illetve ütközésnél leállítjuk a játékot. Ez kezeli még a kígyó
+    * növését, az alma újragenerálását is, és a pause menübe is innen lépünk be.
+    * Ha pedig a pontszámunk kellően magas, a mentés folyamatát is elindítja.
+    */
     public void start() throws IOException, InterruptedException {
         for (int i = 0; i < snake.getBody().size(); i++) {
             int[] b = snake.getBody().get(i);
@@ -110,6 +155,11 @@ public class Game {
         }
     }
 
+    /**
+    * Visszaadja a paraméterként kapott irány ellenkezőjét.
+    * @param  dir  karakterként megadott irány, angol kezdőbetű szerint.
+    * @return  az irány ellentéte, hasonló módon megadva.
+    */
     public char opposite(char dir) {
         switch (dir) {
             case 'U': return 'D';
@@ -120,6 +170,9 @@ public class Game {
         }
     }
 
+    /**
+    * A pálya frissítése, a kígyó pozíciója, és testrészei szerint.
+    */
     public void updateField() {
         field.setCell(snake.getPos()[0], snake.getPos()[1], snake.getDir());
         for (int b = 0; b < snake.getBody().size(); b++) {
@@ -131,6 +184,10 @@ public class Game {
         }
     }
 
+    /**
+    * A pálya "feltörlése", hogy a játék végén a pályán ne maradjon semmi,
+    * akadályon kívül.
+    */
     public void cleanupField() {
         for (int y = 0; y < field.getSize()[1]; y++) {
             for (int x = 0; x < field.getSize()[0]; x++) {
@@ -141,18 +198,33 @@ public class Game {
         }
     }
 
+    /**
+    * Annak vizsgálata, hogy egy adott koordináta a pályán belül van-e.
+    * @return  igaz, ha a koordináta a pályán belül van, különben hamis.
+    */
     public boolean isInside(int[] coord) {
         int[] size = field.getSize();
         return 0 <= coord[0] && coord[0] < size[0]
                && 0 <= coord[1] && coord[1] < size[1];
     }
 
+    /**
+    * Annak vizsgálata, hogy a megadott koordináta a pályán belül van-e,
+    * illetve hogy az adott koordináta üres, vagy alma, tehát mozoghat oda a
+    * kígyó.
+    * @return  igaz, ha a kígyó mozoghat a megadott helyre, különben hamis.
+    */
     public boolean isValid(int[] coord) {
         return isInside(coord)
                && (field.getCell(coord[0], coord[1]).getType() == 'e'
                || field.getCell(coord[0], coord[1]).getType() == 'a');
     }
 
+    /**
+    * Véletlenszerű üres Cellájú koordináta visszaadása.
+    * @return  egy véletlenszerű üres cella x és y koordinátája egy 2 elemű int
+    * tömbben.
+    */
     public int[] randomSpace() {
         Random r = new Random();
         int x = r.nextInt(field.getSize()[0]);
@@ -164,15 +236,30 @@ public class Game {
         return new int [] {x, y};
     }
 
+    /**
+    * Paraméterként megadott pontszám hozzáadása a meglévőhöz.
+    * @param  d  a meglévőhöz hozzáadni kívánt pontszám (int)
+    */
     public void addPts(int d) {
         pts += d;
     }
 
+    /**
+    * Annak eldöntése, hogy a paraméterként megadott pontszám rekord lett-e.
+    * @param  pts  pontszám, amiről eldöntjük, hogy rekord-e (int)
+    * @return  igaz, ha benne van a legnagyobb 5 eddigi pontszámban, vagy még
+    * kevesebb, mint 5 rekord van, különben hamis.
+    */
     public boolean isHighScore(int pts) throws IOException {
         ArrayList<HighScore> highs = HighScoresBtn.getHighScores();
         return (highs.size() < 5 || pts > highs.get(highs.size()-1).getPts());
     }
 
+    /**
+    * A paraméterként megadott rekord elmentése a dicsőséglistára,
+    * a highscores.txt-be.
+    * @param  h  HighScore típusú rekord
+    */
     public void saveHighScore(HighScore h) throws IOException {
         ArrayList<HighScore> highs = HighScoresBtn.getHighScores();
         highs.add(h);
@@ -197,6 +284,10 @@ public class Game {
         wt.close();
     }
 
+    /**
+    * A játékállás elmentése a save.txt file-ba, beleírjuk a mátrixot, illetve
+    * a pontszámot.
+    */
     public void saveGame() throws IOException {
         File save = new File("save.txt");
         if (!save.exists()) {
@@ -212,6 +303,12 @@ public class Game {
         wt.close();
     }
 
+    /**
+    * A mentett játékállás betöltése a save.txt file-ból.
+    * @return  Game típusú játék, ami már tartalmazza
+    * a betöltött attribútumokat, vagy az alapértelmezetteket, amennyiben
+    * nem található mentés.
+    */
     public Game loadGame() throws IOException, InterruptedException {
         File save = new File("save.txt");
         int pts = 0;
@@ -274,6 +371,13 @@ public class Game {
         }
     }
 
+    /**
+    * A paraméterként kapott, folyamatban lévő játék megállítása, menübe lépés.
+    * Innen folytatható, illetve menthető a játék,
+    * de ki is léphetünk a főmenübe.
+    * @param  g  Game típusú játék, amit megállítunk
+    * @return  igaz, ha kilépünk a játékból, hamis, ha folytatjuk azt.
+    */
     public boolean pause(Game g) {
         boolean exit = false;
         Menu menu = new Menu(new ArrayList<Button>(Arrays.asList(

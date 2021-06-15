@@ -1,11 +1,30 @@
 package snake;
 import java.io.PrintWriter;
 
+/**
+* A játékban használt pálya állapotának tárolásáért felelős osztály.
+*/
 public class Field {
+    /**
+    * A pálya szélesssége.
+    */
     private int width;
+    /**
+    * A pálya magassága.
+    */
     private int height;
+
+    /**
+    * A pályában lévő cellák mátrixa.
+    */
     private Cell[][] matrix;
 
+    /**
+    * A pálya konstruktora, szélesség és magasság megadásával,
+    * ilyenkor a mátrix feltöltődik csupa üres ('e') típusú Cellával.
+    * @param  w  a pálya szélessége
+    * @param  h  a pálya magassága
+    */
     public Field(int w, int h) {
         width = w;
         height = h;
@@ -17,20 +36,39 @@ public class Field {
         }
     }
 
+    /**
+    * A pálya konstruktora a mátrix megadásával, mentés betöltésekor használjuk.
+    */
     public Field(Cell[][] m) {
         width = m[0].length;
         height = m.length;
         matrix = m;
     }
 
+    /**
+    * A pálya mátrixának lekérése.
+    * @return  a pálya mátrixa.
+    */
     public Cell[][] getMatrix() {
         return matrix;
     }
 
+    /**
+    * A pálya mátrixának inicializálása, egyelőre üresen, megfelelő hosszokkkal.
+    * @param  w  a pályában használt mátrix szélessége
+    * @param  h  a pályában használt mátrix magassága
+    */
     public void setMatrix(int w, int h) {
         matrix = new Cell[h][w];
     }
 
+    /**
+    * A pálya mátrixának kiírása a Cellák típusával, illetve kígyó testének
+    * esetén a Cella adatával, hogy mentésnél az mentődjön el. Az egymás
+    * mellett lévő cellákat szóközök választják el egymástól, minden sor végén
+    * soremelés van.
+    * @param  wt  kiírás célja, ahova a mátrix ki lesz írva.
+    */
     public void printMatrix(PrintWriter wt) {
         for (int c = 0; c < matrix.length; c++) {
             for (int r = 0; r < matrix[c].length; r++) {
@@ -47,14 +85,30 @@ public class Field {
         }
     }
 
+    /**
+    * A mátrix egy adott koordinátájú Cellájának állítása, adott típusra.
+    * @param  x  a Cella X koordinátája.
+    * @param  y  a Cella Y koordinátája.
+    * @param  c  a Cella kívánt típusa.
+    */
     public void setCell(int x, int y, char c) {
         getMatrix()[y][x].setType(c);
     }
 
+    /**
+    * A mátrix egy adott koordinátájú Cellájának lekérése.
+    * @param  x  a Cella X koordinátája.
+    * @param  y  a Cella Y koordinátája.
+    */
     public Cell getCell(int x, int y) {
         return getMatrix()[y][x];
     }
 
+    /**
+    * A megadott Cella visszaadása String-ként, vizuális reprezentációhoz.
+    * @param  c  a Cella amit reprezentálni szeretnénk.
+    * @return  a Cella, Unicode karakterekkel vizuálisan reprezentálva.
+    */
     public String displayCell(Cell c) {
         switch (c.getType()) {
             case 'e': return "  ";
@@ -69,6 +123,14 @@ public class Field {
         }
     }
 
+    /**
+    * A pálya kiírása a standard kimenetre, a mátrixot bekeretezve, a Cellák
+    * vizuális reprezentációját használva, egy extra dobozzal,
+    * amiben a megadott szöveget és számot jelezzük a felhasználónak.
+    * @param  data  a kijelezni kívánt szám, játék közben pontszám,
+    * vagy pályatervezésnél az akadályok száma.
+    * @param  name  a doboz fölé kiírandó szöveg.
+    */
     public void print(int data, String name) {
         String w = new String(new char[getSize()[0]*2]).replace("\0", "═");
         System.out.println("╔" + w + "╗" + "\r");
@@ -92,6 +154,10 @@ public class Field {
         System.out.println("╚" + w + "╝" + "\r");
     }
 
+    /**
+    * A pálya méreteinek visszaadása.
+    * @return  A pálya mérete szélesség, magasság sorrendben.
+    */
     public int[] getSize() {
         return new int[] {width, height};
     }

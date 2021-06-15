@@ -1,13 +1,29 @@
 package snake;
 import java.io.IOException;
 
+/**
+* Saját, testreszabott pálya osztálya, a pályatervezésért felelős.
+*/
 public class CustomField {
+    /**
+    * A testreszabott pálya, Field típussal.
+    */
     private Field field;
 
+    /**
+    * Az egyedi pálya konstruktora, adott mérettel.
+    * @param  size  a pálya mérete.
+    */
     public CustomField(int size) {
         field = new Field(size, size);
     }
 
+    /**
+    * Egyedi pálya tervezéséért felelős függvény, amely kirajzolja
+    * az eddigi pályát, és a felhasználó irányítása szerint változtatja azt,
+    * a kimenetet mindig frissítve.
+    * @return  a testreszabott pálya.
+    */
     public Field makeField() throws IOException, InterruptedException {
         int cPosX = 0; int cPosY = 0; int obstacles = 0;
         field.setCell(cPosX, cPosY, 's');
@@ -76,6 +92,10 @@ public class CustomField {
         return field;
     }
 
+    /**
+    * Az egyedi pálya lekérése.
+    * @return  az egyedi pálya.
+    */
     public Field getField() {
         return field;
     }
